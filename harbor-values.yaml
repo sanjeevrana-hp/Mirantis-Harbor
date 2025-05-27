@@ -405,14 +405,14 @@ nginx:
   tolerations: []
   affinity:
       podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - harbor
-          topologyKey: "kubernetes.io/hostname"
+       requiredDuringSchedulingIgnoredDuringExecution:
+         - labelSelector:
+             matchExpressions:
+               - key: app
+                 operator: In
+                 values:
+                   - harbor
+           topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
   # - maxSkew: 1
@@ -445,14 +445,14 @@ portal:
   tolerations: []
   affinity:
       podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - harbor
-          topologyKey: "kubernetes.io/hostname"
+       requiredDuringSchedulingIgnoredDuringExecution:
+         - labelSelector:
+             matchExpressions:
+               - key: app
+                 operator: In
+                 values:
+                   - harbor
+           topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
   # - maxSkew: 1
@@ -491,14 +491,14 @@ core:
   tolerations: []
   affinity:
       podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - harbor
-          topologyKey: "kubernetes.io/hostname"
+       requiredDuringSchedulingIgnoredDuringExecution:
+         - labelSelector:
+             matchExpressions:
+               - key: app
+                 operator: In
+                 values:
+                   - harbor
+           topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
   # - maxSkew: 1
@@ -592,14 +592,14 @@ jobservice:
     node-role.kubernetes.io/msr: "true"
   affinity:
       podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - harbor
-          topologyKey: "kubernetes.io/hostname"
+       requiredDuringSchedulingIgnoredDuringExecution:
+         - labelSelector:
+             matchExpressions:
+               - key: app
+                 operator: In
+                 values:
+                   - harbor
+           topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints:
   # - maxSkew: 1
@@ -650,14 +650,14 @@ registry:
   tolerations: []
   affinity:
       podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - harbor
-          topologyKey: "kubernetes.io/hostname"
+       requiredDuringSchedulingIgnoredDuringExecution:
+         - labelSelector:
+             matchExpressions:
+               - key: app
+                 operator: In
+                 values:
+                   - harbor
+           topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
   # - maxSkew: 1
@@ -779,14 +779,14 @@ trivy:
   tolerations: []
   affinity:
       podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - harbor
-          topologyKey: "kubernetes.io/hostname"
+       requiredDuringSchedulingIgnoredDuringExecution:
+         - labelSelector:
+             matchExpressions:
+               - key: app
+                 operator: In
+                 values:
+                   - harbor
+           topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
   # - maxSkew: 1
@@ -851,7 +851,7 @@ database:
     # Get the password by exectuting the below command
     # export POSTGRES_PASSWORD=$(kubectl get secret --namespace msr4 postgresql-postgresql-ha-postgresql -o jsonpath="{.data.password}" | base64 -d)
     # echo $POSTGRES_PASSWORD
-    password: "uzR9UWwWyJ"
+    password: "support"
     coreDatabase: "harbor_core"
     # if using existing secret, the key must be "password"
     existingSecret: ""
@@ -954,17 +954,17 @@ exporter:
     repository: harbor-exporter
   nodeSelector:
     node-role.kubernetes.io/db: "true"
-  tolerations:
+  tolerations: []
   affinity: 
       podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - harbor
-          topologyKey: "kubernetes.io/hostname"
+       requiredDuringSchedulingIgnoredDuringExecution:
+         - labelSelector:
+             matchExpressions:
+               - key: app
+                 operator: In
+                 values:
+                   - harbor
+           topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
   # - maxSkew: 1

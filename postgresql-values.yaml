@@ -1,23 +1,20 @@
+global:
+  storageClass: "nfs-client"
+  postgresql:
+    password: "support"
+
 postgresql:
   replicaCount: 3
-  nodeSelector:
-    node-role.kubernetes.io/msr: "true"
-
-primary:
   persistence:
     enabled: true
     size: 10Gi
-    storageClass: "nfs-client"
-  postgresql:
-    password: "support"
-    replicaCount: 3
-    resources:
-      limits:
-        cpu: 500m
-        memory: 512Mi
-      requests:
-        cpu: 100m
-        memory: 256Mi
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
   readinessProbe:
     enabled: true
     initialDelaySeconds: 30
@@ -26,9 +23,10 @@ primary:
     failureThreshold: 6
     successThreshold: 1
     exec:
-      - sh
-      - -c
-      - exec pg_isready -U postgres
+      command:
+        - sh
+        - -c
+        - exec pg_isready -U postgres
   affinity:
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -37,7 +35,23 @@ primary:
               - key: app.kubernetes.io/component
                 operator: In
                 values:
-                  - primary
+                  - postgresql
           topologyKey: "kubernetes.io/hostname"
   nodeSelector:
     node-role.kubernetes.io/msr: "true"
+
+pgpool:
+  replicaCount: 3
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/component
+                operator: In
+                values:
+                  - pgpool
+          topologyKey: "kubernetes.io/hostname"
+  nodeSelector:
+    node-role.kubernetes.io/msr: "true"
+

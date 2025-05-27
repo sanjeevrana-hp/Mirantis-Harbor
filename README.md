@@ -227,7 +227,7 @@ kubectl -n msr4 create secret tls <NAME-OF-YOUR-SECRET> \
 
 ##### Install MSR using Helm with the configured values file
 ```sh
-helm install msr4 oci://registry.mirantis.com/harbor/helm/harbor -f <PATH-TO/harbor-values.yaml> -n msr4
+helm install msr4 oci://registry.mirantis.com/harbor/helm/harbor -f harbor-values.yaml -n msr4
 ```
 
 ###### :memo: Notes:
