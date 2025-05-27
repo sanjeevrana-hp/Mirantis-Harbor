@@ -17,7 +17,7 @@ Before installing Harbor (or Mirantis Secure Registry), ensure the following pre
 - Enabled the Nginx Ingress controller from MKE UI.
 
 
-### Install NFS Subdir External Provisioner
+### :hammer_and_wrench:  Install NFS Subdir External Provisioner
 
 #### Ensure that the NFS provisioner storageClass is configured. If not then below are the steps to configure.
 
@@ -88,14 +88,14 @@ kubectl apply -f nfs-client-sc.yaml
 Let me know if you want to include a sample `values.yaml` for the provisioner or additional validation steps.
 
 
-### Create the NameSpace, add node label where you want to install all the components related to MSR4 (Harbor).
+### :hammer_and_wrench: Create the NameSpace, add node label where you want to install all the components related to MSR4 (Harbor).
 ```sh
 kubectl create namespace msr4
 kubectl label nodes <node-name> node-role.kubernetes.io/msr: "true"
 ```
 
 
-### PostgreSQL HA Setup with Bitnami Helm Chart
+### :hammer_and_wrench: PostgreSQL HA Setup with Bitnami Helm Chart
 
 ##### Add the Bitnami Helm repository
 ```sh
@@ -140,7 +140,7 @@ postgresql-postgresql-ha-pgpool       ClusterIP   10.96.40.233   <none>        5
 
 
 
-### Redis HA Setup with Bitnami Helm Chart
+### :hammer_and_wrench: Redis HA Setup with Bitnami Helm Chart
 
 ##### Add the Bitnami Helm repository to Helm
 ```sh
@@ -169,7 +169,7 @@ redis-master   ClusterIP   10.96.84.98    <none>        6379/TCP
 
 
 
-### Install HA Mirantis Secure Registry (MSR)
+### :hammer_and_wrench: Install HA Mirantis Secure Registry (MSR)
 
 ##### Get the Harbor values.yaml file
 ```sh
