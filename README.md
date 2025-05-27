@@ -86,20 +86,25 @@ kubectl create namespace msr4
 ## PostgreSQL HA Setup with Bitnami Helm Chart
 
 # Add the Bitnami Helm repository
+```sh
 helm repo add bitnami https://charts.bitnami.com/bitnami
-
+```
 # Install HA PostgreSQL using a custom values file
+```sh
 helm install postgresql bitnami/postgresql-ha -f postgresql-values.yaml -n msr4
-
+```
 # Obtain the PostgreSQL password
+```sh
 export POSTGRES_PASSWORD=$(kubectl get secret --namespace msr4 postgresql-postgresql-ha-postgresql -o jsonpath="{.data.password}" | base64 -d)
 echo $POSTGRES_PASSWORD
-
+```
 # Login to PostgreSQL
+```sh
 kubectl run postgresql-postgresql-ha-client --rm --tty -i --restart='Never' --namespace msr4 \
   --image docker.io/bitnami/postgresql-repmgr:16.4.0-debian-12-r12 \
   --env="PGPASSWORD=$POSTGRES_PASSWORD" \
   --command -- psql -h postgresql-postgresql-ha-pgpool -p 5432 -U postgres -d postgres
+```
 
 # Find the pool service and port
 kubectl get service -n msr4
@@ -112,17 +117,24 @@ kubectl get service -n msr4
 ## Redis HA Setup with Bitnami Helm Chart
 
 # Add the Bitnami Helm repository to Helm
+```sh
 helm repo add bitnami https://charts.bitnami.com/bitnami
+```
 
 # Install Redis with a custom values file
+```sh
 helm install redis bitnami/redis -f redis-values.yaml -n msr4
-
+```
 # Save the Redis password as an environment variable
+```sh
 export REDIS_PASSWORD=$(kubectl get secret --namespace msr4 redis -o jsonpath="{.data.redis-password}" | base64 -d)
 echo $REDIS_PASSWORD
+```
 
 # Get the Redis service name and IP address
+```sh
 kubectl get service -n msr4
+```
 
 # Example output:
 # NAME           TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)
@@ -133,14 +145,18 @@ kubectl get service -n msr4
 ## Install HA Mirantis Secure Registry (MSR)
 
 # Get the Harbor values.yaml file
+```sh
 helm show values oci://registry.mirantis.com/harbor/helm/harbor > harbor-values.yaml
-
+```
 # (Optional) Create custom TLS certificates
 
 # Step 1: Create a directory for certificates
+```sh
 mkdir certs
+```
 
 # Step 2: Create a harbor.conf file in the certs directory
+```sh
 cat <<EOF > certs/harbor.conf
 [req]
 distinguished_name = req_distinguished_name
@@ -163,22 +179,28 @@ subjectAltName = @alt_names
 [alt_names]
 IP.1 = <IP-ADDRESS-OF-WORKERNODE>  # Replace with your actual IP address
 EOF
+```
 
 # Step 3: Generate the certificate and key
+```sh
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout certs/tls.key -out certs/tls.crt \
   -config certs/harbor.conf
+```
 
 # Step 4: (Only if using custom certs) Create Kubernetes TLS secret
+```sh
 kubectl -n msr4 create secret tls <NAME-OF-YOUR-SECRET> \
   --cert=certs/tls.crt \
   --key=certs/tls.key
+```
 
 # Modify the harbor-values.yaml. Update the postgres password, redis password, secret name, hostname msr4.example.com and size as per requirement. 
 
 # Install MSR using Helm with the configured values file
+```sh
 helm install my-release oci://registry.mirantis.com/harbor/helm/harbor -f <PATH-TO/harbor-values.yaml> -n msr4
-
+```
 
 ### Notes:
 - Replace `<IP-ADDRESS-OF-WORKERNODE>` with your actual IP address.
