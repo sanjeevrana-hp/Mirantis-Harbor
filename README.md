@@ -79,8 +79,10 @@ kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storagec
 Let me know if you want to include a sample `values.yaml` for the provisioner or additional validation steps.
 
 
-##### Create the NameSpace, where you want to install all the components related to MSR4 (Harbor)
+### Create the NameSpace, where you want to install all the components related to MSR4 (Harbor)
+```sh
 kubectl create namespace msr4
+```
 
 
 ### PostgreSQL HA Setup with Bitnami Helm Chart
@@ -111,8 +113,11 @@ kubectl run postgresql-postgresql-ha-client --rm --tty -i --restart='Never' --na
 kubectl get service -n msr4
 ```
 ###### Example output:
+```
 NAME                                  TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)
 postgresql-postgresql-ha-pgpool       ClusterIP   10.96.40.233   <none>        5432/TCP
+```
+
 
 
 ### Redis HA Setup with Bitnami Helm Chart
@@ -137,8 +142,10 @@ echo $REDIS_PASSWORD
 kubectl get service -n msr4
 ```
 ###### Example output:
+```
 NAME           TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)
 redis-master   ClusterIP   10.96.84.98    <none>        6379/TCP
+```
 
 
 
@@ -195,11 +202,11 @@ kubectl -n msr4 create secret tls <NAME-OF-YOUR-SECRET> \
   --key=certs/tls.key
 ```
 
-##### Modify the harbor-values.yaml. Update the postgres password, redis password, secret name, hostname msr4.example.com and size as per requirement. 
+##### Modify the harbor-values.yaml. Update the postgres password, redis password, secret name, Ingress hostname & externalURL'msr4.example.com' and pv size as per requirement. 
 
 ##### Install MSR using Helm with the configured values file
 ```sh
-helm install my-release oci://registry.mirantis.com/harbor/helm/harbor -f <PATH-TO/harbor-values.yaml> -n msr4
+helm install msr4 oci://registry.mirantis.com/harbor/helm/harbor -f <PATH-TO/harbor-values.yaml> -n msr4
 ```
 
 ###### Notes:
