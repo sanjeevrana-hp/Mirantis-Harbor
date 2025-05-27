@@ -85,7 +85,6 @@ kubectl apply -f nfs-client-sc.yaml
 - Ensure that the NFS path exists and is accessible by your cluster nodes.
 - This assumes the `nfs-client` StorageClass was created by the Helm chart.
 
-Let me know if you want to include a sample `values.yaml` for the provisioner or additional validation steps.
 
 
 ### :hammer_and_wrench: Create the NameSpace, add node label where you want to install all the components related to MSR4 (Harbor).
