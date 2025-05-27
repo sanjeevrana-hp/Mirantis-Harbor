@@ -1,4 +1,5 @@
-:rocket: ## How to Install the Mirantis Harbor Registry in HA Mode
+## :rocket: How to Install the Mirantis Harbor Registry in HA Mode
+
 
 
 ### Prerequisites for Harbor Registry Installation
