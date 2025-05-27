@@ -1,0 +1,53 @@
+master:
+  persistence:
+    enabled: true
+    size: 8Gi
+    storageClass: "nfs-client"
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 200m
+  nodeSelector:
+    node-role.kubernetes.io/msr: "true"
+replica:
+  replicaCount: 3
+  persistence:
+    enabled: true
+    size: 8Gi
+    storageClass: "nfs-client"
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 200m
+  env:
+    - name: REDIS_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: redis
+          key: redis-password
+  livenessProbe:
+    enabled: true
+    tcpSocket:
+      port: 6379
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/component
+                operator: In
+                values:
+                  - replica
+          topologyKey: "kubernetes.io/hostname"
+  nodeSelector:
+    node-role.kubernetes.io/msr: "true"
