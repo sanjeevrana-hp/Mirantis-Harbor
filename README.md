@@ -6,7 +6,7 @@
 Before installing Harbor (or Mirantis Secure Registry), ensure the following prerequisites are met:
 
 ##### 1. Kubernetes Cluster
-- A running Kubernetes cluster (v1.18 or later is recommended).
+- A running Kubernetes cluster (v1.30 or latest)
 - At least 3 nodes for HA setup (optional for basic single-node installation).
 - Sufficient CPU and memory resources for registry, database, and other components.
 
