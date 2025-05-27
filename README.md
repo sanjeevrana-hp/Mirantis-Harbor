@@ -235,5 +235,5 @@ helm install msr4 oci://registry.mirantis.com/harbor/helm/harbor -f <PATH-TO/har
 - Replace `<NAME-OF-YOUR-SECRET>` with a meaningful name for your Kubernetes TLS secret.
 - Replace `<PATH-TO/harbor-values.yaml>` with the actual path to your values file.
 
-###### Access the UI, without the nodePort
+###### :bulb: Access the UI, without the nodePort
 Need to configure the LoadBalancer in front of Ingress controller To access the Mirantis Harbor UI.
