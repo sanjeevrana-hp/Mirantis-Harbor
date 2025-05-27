@@ -2,7 +2,7 @@
 
 
 
-### Prerequisites for Harbor Registry Installation
+### :white_check_mark: Prerequisites for Harbor Registry Installation
 
 Before installing Harbor (or Mirantis Secure Registry), ensure the following prerequisites are met:
 
@@ -80,7 +80,7 @@ kubectl get storageclass nfs-client -o yaml > nfs-client-sc.yaml
 kubectl delete sc nfs-client
 kubectl apply -f nfs-client-sc.yaml
 ```
-###### Notes:
+###### :memo: Notes:
 - Replace `?????` with the IP address of your NFS server.
 - Ensure that the NFS path exists and is accessible by your cluster nodes.
 - This assumes the `nfs-client` StorageClass was created by the Helm chart.
@@ -222,14 +222,15 @@ kubectl -n msr4 create secret tls <NAME-OF-YOUR-SECRET> \
   --key=certs/tls.key
 ```
 
-##### Modify the harbor-values.yaml. Update the postgres password, redis password, secret name, Ingress hostname & externalURL'msr4.example.com' and pv size as per requirement. 
+##### Modify the harbor-values.yaml. 
+##### Update the postgres password, redis password, from the above coomands output. Secret name, Ingress hostname & externalURL eg: 'msr4.example.com' and pv size change as per requirement. 
 
 ##### Install MSR using Helm with the configured values file
 ```sh
 helm install msr4 oci://registry.mirantis.com/harbor/helm/harbor -f <PATH-TO/harbor-values.yaml> -n msr4
 ```
 
-###### Notes:
+###### :memo: Notes:
 - Replace `<IP-ADDRESS-OF-WORKERNODE>` with your actual IP address.
 - Replace `<NAME-OF-YOUR-SECRET>` with a meaningful name for your Kubernetes TLS secret.
 - Replace `<PATH-TO/harbor-values.yaml>` with the actual path to your values file.
