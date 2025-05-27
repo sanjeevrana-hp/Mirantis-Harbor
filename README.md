@@ -1,3 +1,6 @@
+## How to Install the Mirantis Harbor Registry in HA Mode.
+
+
 ### Prerequisites for Harbor Registry Installation
 
 Before installing Harbor (or Mirantis Secure Registry), ensure the following prerequisites are met:
