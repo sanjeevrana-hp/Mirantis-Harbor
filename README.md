@@ -70,7 +70,12 @@ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs
 ```sh
 kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
-
+##### Edit the StorageClass reclaimPolicy: Delete to Retain. (PV remains, and storage is kept even if the pvc is deleted. Usefor important data, backups)
+```sh
+kubectl get storageclass nfs-client -o yaml > nfs-client-sc.yaml
+kubectl delete sc nfs-client
+kubectl apply -f nfs-client-sc.yaml
+```
 ###### Notes:
 - Replace `?????` with the IP address of your NFS server.
 - Ensure that the NFS path exists and is accessible by your cluster nodes.
