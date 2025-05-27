@@ -85,7 +85,6 @@ kubectl create namespace msr4
 
 ## PostgreSQL HA Setup with Bitnami Helm Chart
 
-```bash
 # Add the Bitnami Helm repository
 helm repo add bitnami https://charts.bitnami.com/bitnami
 
@@ -112,7 +111,6 @@ kubectl get service -n msr4
 
 ## Redis HA Setup with Bitnami Helm Chart
 
-```bash
 # Add the Bitnami Helm repository to Helm
 helm repo add bitnami https://charts.bitnami.com/bitnami
 
@@ -134,7 +132,6 @@ kubectl get service -n msr4
 
 ## Install HA Mirantis Secure Registry (MSR)
 
-```bash
 # Get the Harbor values.yaml file
 helm show values oci://registry.mirantis.com/harbor/helm/harbor > harbor-values.yaml
 
