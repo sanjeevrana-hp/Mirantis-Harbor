@@ -230,10 +230,6 @@ kubectl -n msr4 create secret tls <NAME-OF-YOUR-SECRET> \
 helm install msr4 oci://registry.mirantis.com/harbor/helm/harbor -f harbor-values.yaml -n msr4
 ```
 
-###### :memo: Notes:
-- Replace `<IP-ADDRESS-OF-WORKERNODE>` with your actual IP address.
-- Replace `<NAME-OF-YOUR-SECRET>` with a meaningful name for your Kubernetes TLS secret.
-- Replace `<PATH-TO/harbor-values.yaml>` with the actual path to your values file.
 
-###### :bulb: Access the UI, without the nodePort
+##### :bulb: Access the UI, without the nodePort
 Need to configure the LoadBalancer in front of Ingress controller To access the Mirantis Harbor UI.
