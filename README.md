@@ -79,7 +79,8 @@ kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storagec
 Let me know if you want to include a sample `values.yaml` for the provisioner or additional validation steps.
 
 
-### Create the NameSpace, where you want to install all the components related to MSR4 (Harbor), and label the node where you're looking MSR/redis/postgres pods to be deployed.
+### Create the NameSpace, where you want to install all the components related to MSR4 (Harbor).
+Label the node where you're looking MSR/redis/postgres pods to be deployed.
 ```sh
 kubectl create namespace msr4
 kubectl label nodes <node-name> node-role.kubernetes.io/msr: "true"
