@@ -1,21 +1,21 @@
-## Prerequisites for Harbor Registry Installation
+### Prerequisites for Harbor Registry Installation
 
 Before installing Harbor (or Mirantis Secure Registry), ensure the following prerequisites are met:
 
-### 1. Kubernetes Cluster
+##### 1. Kubernetes Cluster
 - A running Kubernetes cluster (v1.18 or later is recommended).
 - At least 3 nodes for HA setup (optional for basic single-node installation).
 - Sufficient CPU and memory resources for registry, database, and other components.
 
-### 2. Helm
+##### 2. Helm
 - Helm 3 installed and configured.
 - Configure the StorageClass for Dynamic provisioning.
 - Enabled the Nginx Ingress controller from MKE UI.
 
 
-## Install NFS Subdir External Provisioner
+### Install NFS Subdir External Provisioner
 
-### Ensure that the NFS provisioner storageClass is configured. If not then below are the steps to configure.
+#### Ensure that the NFS provisioner storageClass is configured. If not then below are the steps to configure.
 
 ##### Choose an NFS Server Node
 Pick any node to act as the NFS server and execute the following commands based on your OS.
@@ -71,7 +71,7 @@ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs
 kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 
-### Notes:
+###### Notes:
 - Replace `?????` with the IP address of your NFS server.
 - Ensure that the NFS path exists and is accessible by your cluster nodes.
 - This assumes the `nfs-client` StorageClass was created by the Helm chart.
@@ -79,26 +79,26 @@ kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storagec
 Let me know if you want to include a sample `values.yaml` for the provisioner or additional validation steps.
 
 
-## Create the NameSpace, where you want to install all the components related to MSR4 (Harbor)
+##### Create the NameSpace, where you want to install all the components related to MSR4 (Harbor)
 kubectl create namespace msr4
 
 
-## PostgreSQL HA Setup with Bitnami Helm Chart
+### PostgreSQL HA Setup with Bitnami Helm Chart
 
-#### Add the Bitnami Helm repository
+##### Add the Bitnami Helm repository
 ```sh
 helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
-#### Install HA PostgreSQL using a custom values file
+##### Install HA PostgreSQL using a custom values file
 ```sh
 helm install postgresql bitnami/postgresql-ha -f postgresql-values.yaml -n msr4
 ```
-#### Obtain the PostgreSQL password
+##### Obtain the PostgreSQL password
 ```sh
 export POSTGRES_PASSWORD=$(kubectl get secret --namespace msr4 postgresql-postgresql-ha-postgresql -o jsonpath="{.data.password}" | base64 -d)
 echo $POSTGRES_PASSWORD
 ```
-#### Login to PostgreSQL
+##### Login to PostgreSQL
 ```sh
 kubectl run postgresql-postgresql-ha-client --rm --tty -i --restart='Never' --namespace msr4 \
   --image docker.io/bitnami/postgresql-repmgr:16.4.0-debian-12-r12 \
@@ -110,29 +110,29 @@ kubectl run postgresql-postgresql-ha-client --rm --tty -i --restart='Never' --na
 ```sh
 kubectl get service -n msr4
 ```
-##### Example output:
+###### Example output:
 NAME                                  TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)
 postgresql-postgresql-ha-pgpool       ClusterIP   10.96.40.233   <none>        5432/TCP
 
 
-#### Redis HA Setup with Bitnami Helm Chart
+### Redis HA Setup with Bitnami Helm Chart
 
-#### Add the Bitnami Helm repository to Helm
+##### Add the Bitnami Helm repository to Helm
 ```sh
 helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
 
-#### Install Redis with a custom values file
+##### Install Redis with a custom values file
 ```sh
 helm install redis bitnami/redis -f redis-values.yaml -n msr4
 ```
-#### Save the Redis password as an environment variable
+##### Save the Redis password as an environment variable
 ```sh
 export REDIS_PASSWORD=$(kubectl get secret --namespace msr4 redis -o jsonpath="{.data.redis-password}" | base64 -d)
 echo $REDIS_PASSWORD
 ```
 
-#### Get the Redis service name and IP address
+##### Get the Redis service name and IP address
 ```sh
 kubectl get service -n msr4
 ```
@@ -144,18 +144,18 @@ redis-master   ClusterIP   10.96.84.98    <none>        6379/TCP
 
 ### Install HA Mirantis Secure Registry (MSR)
 
-#### Get the Harbor values.yaml file
+##### Get the Harbor values.yaml file
 ```sh
 helm show values oci://registry.mirantis.com/harbor/helm/harbor > harbor-values.yaml
 ```
-#### (Optional) Create custom TLS certificates
+##### (Optional) Create custom TLS certificates
 
-#### Step 1: Create a directory for certificates
+##### Step 1: Create a directory for certificates
 ```sh
 mkdir certs
 ```
 
-#### Step 2: Create a harbor.conf file in the certs directory
+##### Step 2: Create a harbor.conf file in the certs directory
 ```sh
 cat <<EOF > certs/harbor.conf
 [req]
@@ -181,28 +181,28 @@ IP.1 = <IP-ADDRESS-OF-WORKERNODE>  # Replace with your actual IP address
 EOF
 ```
 
-#### Step 3: Generate the certificate and key
+##### Step 3: Generate the certificate and key
 ```sh
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout certs/tls.key -out certs/tls.crt \
   -config certs/harbor.conf
 ```
 
-#### Step 4: (Only if using custom certs) Create Kubernetes TLS secret
+##### Step 4: (Only if using custom certs) Create Kubernetes TLS secret
 ```sh
 kubectl -n msr4 create secret tls <NAME-OF-YOUR-SECRET> \
   --cert=certs/tls.crt \
   --key=certs/tls.key
 ```
 
-#### Modify the harbor-values.yaml. Update the postgres password, redis password, secret name, hostname msr4.example.com and size as per requirement. 
+##### Modify the harbor-values.yaml. Update the postgres password, redis password, secret name, hostname msr4.example.com and size as per requirement. 
 
-#### Install MSR using Helm with the configured values file
+##### Install MSR using Helm with the configured values file
 ```sh
 helm install my-release oci://registry.mirantis.com/harbor/helm/harbor -f <PATH-TO/harbor-values.yaml> -n msr4
 ```
 
-##### Notes:
+###### Notes:
 - Replace `<IP-ADDRESS-OF-WORKERNODE>` with your actual IP address.
 - Replace `<NAME-OF-YOUR-SECRET>` with a meaningful name for your Kubernetes TLS secret.
 - Replace `<PATH-TO/harbor-values.yaml>` with the actual path to your values file.
