@@ -393,26 +393,16 @@ nginx:
   serviceAccountName: ""
   # mount the service account token
   automountServiceAccountToken: false
-  replicas: 2
+  replicas: 1
   revisionHistoryLimit: 10
   # resources:
   #  requests:
   #    memory: 256Mi
   #    cpu: 100m
   extraEnvVars: []
-  nodeSelector:
-    node-role.kubernetes.io/msr: "true"
+  nodeSelector: {}
   tolerations: []
-  affinity:
-      podAntiAffinity:
-       requiredDuringSchedulingIgnoredDuringExecution:
-         - labelSelector:
-             matchExpressions:
-               - key: app
-                 operator: In
-                 values:
-                   - harbor
-           topologyKey: "kubernetes.io/hostname"
+  affinity: {}
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
   # - maxSkew: 1
