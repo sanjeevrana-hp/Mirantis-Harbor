@@ -79,9 +79,10 @@ kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storagec
 Let me know if you want to include a sample `values.yaml` for the provisioner or additional validation steps.
 
 
-### Create the NameSpace, where you want to install all the components related to MSR4 (Harbor)
+### Create the NameSpace, where you want to install all the components related to MSR4 (Harbor), and label the node where you're looking MSR/redis/postgres pods to be deployed.
 ```sh
 kubectl create namespace msr4
+kubectl label nodes <node-name> node-role.kubernetes.io/msr: "true"
 ```
 
 
@@ -106,6 +107,16 @@ kubectl run postgresql-postgresql-ha-client --rm --tty -i --restart='Never' --na
   --image docker.io/bitnami/postgresql-repmgr:16.4.0-debian-12-r12 \
   --env="PGPASSWORD=$POSTGRES_PASSWORD" \
   --command -- psql -h postgresql-postgresql-ha-pgpool -p 5432 -U postgres -d postgres
+```
+##### Check the database in postgres.It wil prompt for "POSTGRES_PASSWORD"
+```sh
+kubectl exec -n msr4 -i $(kubectl get pods -n msr4 -l app.kubernetes.io/component=postgresql -o name | head -n1) -- psql -U postgres -c "SELECT datname FROM pg_database;"
+```
+##### Create the harbor_core database. Addionally if required then create "notary_signer" and "notary_server". It wil prompt for "POSTGRES_PASSWORD"
+```sh
+kubectl exec -n msr4 -i $(kubectl get pods -n msr4 -l app.kubernetes.io/component=postgresql -o name | head -n1) -- psql -U postgres -c "CREATE DATABASE harbor_core;"
+kubectl exec -n msr4 -i $(kubectl get pods -n msr4 -l app.kubernetes.io/component=postgresql -o name | head -n1) -- psql -U postgres -c "CREATE DATABASE notary_signer;"
+kubectl exec -n msr4 -i $(kubectl get pods -n msr4 -l app.kubernetes.io/component=postgresql -o name | head -n1) -- psql -U postgres -c "CREATE DATABASE notary_server;"
 ```
 
 ##### Find the pool service and port
