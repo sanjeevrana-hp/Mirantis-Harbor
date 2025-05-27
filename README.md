@@ -223,7 +223,7 @@ kubectl -n msr4 create secret tls <NAME-OF-YOUR-SECRET> \
 ```
 
 ##### Modify the harbor-values.yaml. 
-##### Update the postgres password, redis password, from the above coomands output. Secret name, Ingress hostname & externalURL eg: 'msr4.example.com' and pv size change as per requirement. 
+##### Update the postgres password, redis password from the above commands output. Secret name, harborAdminPassword, Ingress hostname & externalURL eg: 'msr4.example.com' and pv size change as per requirement. 
 
 ##### Install MSR using Helm with the configured values file
 ```sh
