@@ -448,10 +448,10 @@ portal:
        requiredDuringSchedulingIgnoredDuringExecution:
          - labelSelector:
              matchExpressions:
-               - key: app
+               - key: component
                  operator: In
                  values:
-                   - harbor
+                   - portal
            topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
@@ -494,10 +494,10 @@ core:
        requiredDuringSchedulingIgnoredDuringExecution:
          - labelSelector:
              matchExpressions:
-               - key: app
+               - key: component
                  operator: In
                  values:
-                   - harbor
+                   - core
            topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
@@ -595,10 +595,10 @@ jobservice:
        requiredDuringSchedulingIgnoredDuringExecution:
          - labelSelector:
              matchExpressions:
-               - key: app
+               - key: component
                  operator: In
                  values:
-                   - harbor
+                   - jobservice
            topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints:
@@ -653,10 +653,10 @@ registry:
        requiredDuringSchedulingIgnoredDuringExecution:
          - labelSelector:
              matchExpressions:
-               - key: app
+               - key: component
                  operator: In
                  values:
-                   - harbor
+                   - registry
            topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
@@ -782,10 +782,10 @@ trivy:
        requiredDuringSchedulingIgnoredDuringExecution:
          - labelSelector:
              matchExpressions:
-               - key: app
+               - key: component
                  operator: In
                  values:
-                   - harbor
+                   - trivy
            topologyKey: "kubernetes.io/hostname"
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
