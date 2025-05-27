@@ -11,12 +11,6 @@ primary:
   postgresql:
     password: "support"
     replicaCount: 3
-    initdbScripts:
-      create_databases.sh: |
-        #!/bin/bash
-        echo "Creating initial databases..."
-        export PGPASSWORD=$(cat /opt/bitnami/postgresql/secrets/password)
-        psql -U postgres -c "CREATE DATABASE harbor_core" && psql -U postgres -c "CREATE DATABASE notary_signer" && psql -U postgres -c "CREATE DATABASE notary_server"
     resources:
       limits:
         cpu: 500m
