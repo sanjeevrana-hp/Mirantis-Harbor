@@ -41,17 +41,7 @@ postgresql:
     node-role.kubernetes.io/msr: "true"
 
 pgpool:
-  replicaCount: 3
-  affinity:
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app.kubernetes.io/component
-                operator: In
-                values:
-                  - pgpool
-          topologyKey: "kubernetes.io/hostname"
+  replicaCount: 1
   nodeSelector:
     node-role.kubernetes.io/msr: "true"
 
