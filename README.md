@@ -73,7 +73,7 @@ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs
 kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 ##### Edit the StorageClass reclaimPolicy: Delete to Retain. 
-Note: (with this policy the PV remains, and storage is kept even if the pvc is deleted. Used for important data, backups)
+###### :memo: Note: (with this policy the PV remains, and storage is kept even if the pvc is deleted. Used for important data, backups)
 ```sh
 kubectl get storageclass nfs-client -o yaml > nfs-client-sc.yaml
 kubectl delete sc nfs-client
@@ -224,8 +224,8 @@ kubectl -n msr4 create secret tls msr4-secret --cert=certs/tls.crt --key=certs/t
 ##### Install MSR using Helm with the configured values file
 ```sh
 helm install msr4 oci://registry.mirantis.com/harbor/helm/msr --version 4.13.0 -f harbor-values.yaml -n msr4
-Note: Check the Release and notes https://docs.mirantis.com/msr/4.13/overview.html
 ```
+###### :memo: Note: Check the Release and notes https://docs.mirantis.com/msr/4.13/overview.html
 
 
 ##### :bulb: Access the UI, without the nodePort
