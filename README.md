@@ -66,9 +66,7 @@ helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/
 ##### Install the NFS Provisioner
 Change the IP address accordingly before executing:
 ```sh
-helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
-  --set nfs.server=????? \
-  --set nfs.path=/var/nfs/general
+helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=????? --set nfs.path=/var/nfs/general
 ```
 ##### Patch the storageClass nfs-client as default
 ```sh
@@ -91,7 +89,7 @@ kubectl apply -f nfs-client-sc.yaml
 ### :hammer_and_wrench: Create the NameSpace, add node label where you want to install all the components related to MSR4 (Harbor).
 ```sh
 kubectl create namespace msr4
-kubectl label nodes <node-name> node-role.kubernetes.io/msr: "true"
+kubectl label nodes <node-name>  node-role.kubernetes.io/msr="true"
 ```
 
 
@@ -217,9 +215,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 
 ##### Step 4: (Only if using custom certs) Create Kubernetes TLS secret
 ```sh
-kubectl -n msr4 create secret tls <NAME-OF-YOUR-SECRET> \
-  --cert=certs/tls.crt \
-  --key=certs/tls.key
+kubectl -n msr4 create secret tls msr4-secret --cert=certs/tls.crt --key=certs/tls.key
 ```
 
 ##### Modify the harbor-values.yaml. 
@@ -227,7 +223,8 @@ kubectl -n msr4 create secret tls <NAME-OF-YOUR-SECRET> \
 
 ##### Install MSR using Helm with the configured values file
 ```sh
-helm install msr4 oci://registry.mirantis.com/harbor/helm/harbor -f harbor-values.yaml -n msr4
+helm install msr4 oci://registry.mirantis.com/harbor/helm/msr --version 4.13.0 -f harbor-values.yaml -n msr4
+Note: Check the Release and notes https://docs.mirantis.com/msr/4.13/overview.html
 ```
 
 
